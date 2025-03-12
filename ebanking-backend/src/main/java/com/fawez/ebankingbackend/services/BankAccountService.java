@@ -1,6 +1,6 @@
 package com.fawez.ebankingbackend.services;
 
-import com.fawez.ebankingbackend.dtos.CustomerDTO;
+import com.fawez.ebankingbackend.dtos.*;
 import com.fawez.ebankingbackend.entities.BankAccount;
 import com.fawez.ebankingbackend.entities.CurrentAccount;
 import com.fawez.ebankingbackend.entities.Customer;
@@ -12,21 +12,24 @@ import java.util.List;
 
 public interface BankAccountService {
      CustomerDTO saveCustomer(CustomerDTO customer);
-     CurrentAccount saveCurrentbankAccount(double initialBalance, Long customerId, double overDraft);
-     SavingAccount saveSavingbankAccount(double initialBalance, Long customerId, double interestRate);
+     CurrentBankAccountDTO saveCurrentbankAccount(double initialBalance, Long customerId, double overDraft);
+     SavingBankAccountDTO saveSavingbankAccount(double initialBalance, Long customerId, double interestRate);
 
      List<CustomerDTO> listCustomers();
-     BankAccount getBankAccount(String accountId) throws BankAccountNotFoundException;
+     BankAccountDTO getBankAccount(String accountId) throws BankAccountNotFoundException;
      void debit(String accountId,double amount,String description) throws BankAccountNotFoundException, BalanceNotSufficientException;
      void credit(String accountId,double amount,String description) throws BankAccountNotFoundException, BalanceNotSufficientException;
      void transfer(String accountIdSource,String accountIdDestination,double amount) throws BankAccountNotFoundException, BalanceNotSufficientException;
 
 
-     List<BankAccount> bankAccountList();
+     List<BankAccountDTO> bankAccountList();
 
      CustomerDTO getCustomer(Long customerId);
 
      CustomerDTO updateCustomer(CustomerDTO customer);
 
      void deleteCostumer(Long customerId);
+     List<AccountOperationDTO> accountHistory(String accountId);
+
+     AccountHistoryDTO getAccountHistory(String accountId, int page, int size) throws BankAccountNotFoundException;
 }
